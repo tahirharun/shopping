@@ -1,31 +1,24 @@
-/* General font & body */
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f3f4f6;
-  color: #111827; /* dark text for visibility */
+  color: #111827;
 }
-
-/* Header */
 .header h1 {
-  font-size: 2rem; /* bigger site title */
+  font-size: 2rem;
   font-weight: 700;
-  color: #111827; /* dark text */
+  color: #111827;
 }
-
 .header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-
-/* User icon & dropdown */
 .user-icon {
-  width: 28px; /* bigger icon */
+  width: 28px;
   height: 28px;
-  color: #111827; /* dark icon color */
+  color: #111827;
   cursor: pointer;
 }
-
 .user-menu .dropdown {
   display: none;
   position: absolute;
@@ -36,43 +29,35 @@ body {
   min-width: 180px;
   z-index: 50;
 }
-
 .user-menu:hover .dropdown {
   display: block;
 }
-
 .dropdown button {
   display: block;
   width: 100%;
   text-align: left;
   padding: 0.5rem 0;
-  font-size: 1rem; /* bigger text */
+  font-size: 1rem;
   color: #111827;
   border: none;
   background: none;
   cursor: pointer;
 }
-
 .dropdown button.logout-btn {
-  color: #dc2626; /* red for logout */
+  color: #dc2626;
 }
-
-/* Cart icon */
 .cart-info svg {
-  width: 28px; /* bigger icon */
+  width: 28px;
   height: 28px;
   color: #111827;
 }
-
 .cart-info span {
   font-weight: 700;
-  font-size: 1.1rem; /* bigger number */
+  font-size: 1.1rem;
   margin-left: 0.25rem;
 }
-
-/* Buttons */
 button {
-  font-size: 1rem; /* bigger buttons */
+  font-size: 1rem;
   font-weight: 600;
   padding: 0.75rem 1rem;
   border-radius: 0.75rem;
@@ -82,45 +67,35 @@ button {
 button:hover {
   transform: scale(1.05);
 }
-
-/* Inputs */
 input, select {
   font-size: 1rem;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
   border: 1px solid #d1d5db;
 }
-
 input:focus, select:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
-
-/* Product cards */
 .product-card h2 {
-  font-size: 1.2rem; /* bigger product name */
+  font-size: 1.2rem;
   font-weight: 600;
   color: #111827;
 }
-
 .product-card p {
-  font-size: 1rem; /* bigger price */
+  font-size: 1rem;
   color: #111827;
 }
-
-/* Auth form */
 .auth-form h2 {
-  font-size: 1.8rem; /* bigger title */
+  font-size: 1.8rem;
   color: #111827;
 }
-
 .auth-toggle {
   font-size: 1rem;
-  color: #2563eb; /* blue link */
+  color: #2563eb;
   cursor: pointer;
 }
-
 .auth-toggle:hover {
   text-decoration: underline;
 }
