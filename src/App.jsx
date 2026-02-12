@@ -32,7 +32,7 @@ export default function App() {
     e.preventDefault();
     const form = new FormData(e.target);
     const username = form.get("username").trim();
-    const name = form.get("name").trim() || username;
+    const name = form.get("name")?.trim() || username;
     const role = form.get("role");
 
     if (!username) {
@@ -43,7 +43,7 @@ export default function App() {
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
     if (authMode === "signup") {
-      if (users.some(u => u.username === username)) {
+      if (users.some((u) => u.username === username)) {
         alert("Username already exists!");
         return;
       }
@@ -52,7 +52,7 @@ export default function App() {
       localStorage.setItem("users", JSON.stringify(users));
       setUser(newUser);
     } else {
-      const existingUser = users.find(u => u.username === username);
+      const existingUser = users.find((u) => u.username === username);
       if (!existingUser) {
         alert("Account not found. Please sign up.");
         return;
@@ -71,14 +71,14 @@ export default function App() {
   };
 
   const addToCart = (product) => {
-    setCart(prev => ({
+    setCart((prev) => ({
       ...prev,
       [product.id]: { ...product, qty: (prev[product.id]?.qty || 0) + 1 },
     }));
   };
 
   const removeFromCart = (id) => {
-    setCart(prev => {
+    setCart((prev) => {
       const updated = { ...prev };
       if (updated[id].qty === 1) delete updated[id];
       else updated[id].qty -= 1;
@@ -95,7 +95,7 @@ export default function App() {
       price: parseFloat(form.get("price")),
       image: form.get("image") || "https://via.placeholder.com/300",
     };
-    setProducts(prev => [...prev, newProduct]);
+    setProducts((prev) => [...prev, newProduct]);
     e.target.reset();
   };
 
@@ -112,7 +112,7 @@ export default function App() {
           price: parseFloat(item.price),
           image: item.image || "https://via.placeholder.com/300",
         }));
-        setProducts(prev => [...prev, ...formatted]);
+        setProducts((prev) => [...prev, ...formatted]);
       } catch {
         alert("Invalid JSON file!");
       }
@@ -120,29 +120,57 @@ export default function App() {
     reader.readAsText(file);
   };
 
-  const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
+  const total = Object.values(cart).reduce(
+    (sum, item) => sum + item.price * item.qty,
+    0
+  );
 
+  // ===== LOGIN / SIGNUP SPLIT SCREEN =====
   if (!user) {
     return (
       <div className="auth-container">
-        <form onSubmit={handleAuth} className="auth-form">
-          <h2>{authMode === "login" ? "Login" : "Sign Up"}</h2>
-          <input name="username" placeholder="Username" className="input-field" required />
-          {authMode === "signup" && <input name="name" placeholder="Name" className="input-field" />}
-          <select name="role" className="input-field" required>
-            <option value="">Select Role</option>
-            <option value="buyer">Buyer</option>
-            <option value="seller">Seller</option>
-          </select>
-          <button className="btn-primary">{authMode === "login" ? "Login" : "Create Account"}</button>
-          <p onClick={() => setAuthMode(authMode === "login" ? "signup" : "login")} className="auth-toggle">
-            {authMode === "login" ? "No account? Sign up" : "Already have an account? Login"}
-          </p>
-        </form>
+        {/* LEFT SIDE */}
+        <div className="auth-left">
+          <form onSubmit={handleAuth} className="auth-form">
+            <h2>{authMode === "login" ? "Login" : "Sign Up"}</h2>
+
+            <input name="username" placeholder="Username" required />
+
+            {authMode === "signup" && (
+              <input name="name" placeholder="Full Name" />
+            )}
+
+            <select name="role" required>
+              <option value="">Select Role</option>
+              <option value="buyer">Buyer</option>
+              <option value="seller">Seller</option>
+            </select>
+
+            <button type="submit" className="btn-primary">
+              {authMode === "login" ? "Login" : "Create Account"}
+            </button>
+
+            <p
+              onClick={() =>
+                setAuthMode(authMode === "login" ? "signup" : "login")
+              }
+              className="auth-toggle"
+            >
+              {authMode === "login"
+                ? "No account? Sign up"
+                : "Already have an account? Login"}
+            </p>
+          </form>
+        </div>
+        <div className="auth-right">
+          <div className="auth-right-content">
+            <h1>Welcome to My Shop</h1>
+            <p>Buy and sell products easily. Simple. Fast. Modern.</p>
+          </div>
+        </div>
       </div>
     );
   }
-
   return (
     <div className="app-container">
       <header className="header">
@@ -153,7 +181,9 @@ export default function App() {
             <div className="dropdown">
               {user.role === "buyer" && <button>Buyer Dashboard</button>}
               {user.role === "seller" && <button>Seller Dashboard</button>}
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
             </div>
           </div>
           <div className="cart-info">
@@ -168,9 +198,17 @@ export default function App() {
           <h2>Add Products</h2>
           <form onSubmit={handleAddProductManual} className="seller-form">
             <input name="name" placeholder="Product Name" required />
-            <input name="price" type="number" step="0.01" placeholder="Price" required />
+            <input
+              name="price"
+              type="number"
+              step="0.01"
+              placeholder="Price"
+              required
+            />
             <input name="image" placeholder="Image URL" />
-            <button type="submit" className="btn-primary">Add Product</button>
+            <button type="submit" className="btn-primary">
+              Add Product
+            </button>
           </form>
           <div className="file-upload">
             <input type="file" accept=".json" onChange={handleFileUpload} />
@@ -180,12 +218,20 @@ export default function App() {
       )}
 
       <main className="products-grid">
-        {products.map(product => (
-          <motion.div key={product.id} whileHover={{ scale: 1.05 }} className="product-card">
+        {products.map((product) => (
+          <motion.div
+            key={product.id}
+            whileHover={{ scale: 1.05 }}
+            className="product-card"
+          >
             <img src={product.image} alt={product.name} />
             <h2>{product.name}</h2>
             <p>${product.price}</p>
-            {user.role === "buyer" && <button className="btn-primary" onClick={() => addToCart(product)}>Add to Cart</button>}
+            {user.role === "buyer" && (
+              <button className="btn-primary" onClick={() => addToCart(product)}>
+                Add to Cart
+              </button>
+            )}
           </motion.div>
         ))}
       </main>
@@ -194,12 +240,18 @@ export default function App() {
         <section className="cart-section">
           <h2>Your Cart</h2>
           {Object.values(cart).length === 0 && <p>Cart is empty</p>}
-          {Object.values(cart).map(item => (
+          {Object.values(cart).map((item) => (
             <div key={item.id} className="cart-item">
-              <span>{item.name} (x{item.qty})</span>
+              <span>
+                {item.name} (x{item.qty})
+              </span>
               <div className="cart-buttons">
-                <button onClick={() => removeFromCart(item.id)}><Minus size={16} /></button>
-                <button onClick={() => addToCart(item)}><Plus size={16} /></button>
+                <button onClick={() => removeFromCart(item.id)}>
+                  <Minus size={16} />
+                </button>
+                <button onClick={() => addToCart(item)}>
+                  <Plus size={16} />
+                </button>
               </div>
             </div>
           ))}
