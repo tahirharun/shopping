@@ -186,15 +186,6 @@ body {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
-.auth-right {
-  flex: 1;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
-}
 .auth-right-content {
   max-width: 400px;
   text-align: center;

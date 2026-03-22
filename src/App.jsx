@@ -162,13 +162,8 @@ export default function App() {
             </p>
           </form>
         </div>
-        <div className="auth-right">
-          <div className="auth-right-content">
-            <h1>Welcome to My Shop</h1>
-            <p>Buy and sell products easily. Simple. Fast. Modern.</p>
-          </div>
+        
         </div>
-      </div>
     );
   }
   return (
