@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Plus, Minus, User } from "lucide-react";
-import "./App.css"; // import the CSS file
+import "./App.css";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -9,7 +9,6 @@ export default function App() {
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
 
-  // Auto-login from localStorage
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("currentUser"));
     if (savedUser) setUser(savedUser);
@@ -17,13 +16,11 @@ export default function App() {
     setProducts(savedProducts);
   }, []);
 
-  // Update localStorage when user changes
   useEffect(() => {
     if (user) localStorage.setItem("currentUser", JSON.stringify(user));
     else localStorage.removeItem("currentUser");
   }, [user]);
 
-  // Update products in localStorage
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(products));
   }, [products]);
@@ -125,11 +122,9 @@ export default function App() {
     0
   );
 
-  // ===== LOGIN / SIGNUP SPLIT SCREEN =====
   if (!user) {
     return (
       <div className="auth-container">
-        {/* LEFT SIDE */}
         <div className="auth-left">
           <form onSubmit={handleAuth} className="auth-form">
             <h2>{authMode === "login" ? "Login" : "Sign Up"}</h2>
